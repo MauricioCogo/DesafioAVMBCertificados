@@ -1,4 +1,5 @@
 import Institution from '../models/Institution.js';
+import { generateToken } from './authService.js';
 import bcrypt from 'bcrypt';
 
 export const createInstitutionService = async (data) => {
@@ -31,5 +32,15 @@ export const loginInstitutionService = async (data) => {
         throw new Error('INVALID_CREDENTIALS');
     }
 
-    return institution;
+    const token = generateToken(institution);
+
+    return token;
 };
+
+export const getInstitutionAllService = async () => {
+    const institutions = await Institution.findAll({
+        where: { deleted: false },
+        attributes: { exclude: ['password'] }
+    });
+    return institutions;
+}
