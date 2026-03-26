@@ -19,9 +19,8 @@ class Institution extends Model {
                 },
             }
             ,
-
-
             { sequelize })
+        return this;
     }
 }
 
