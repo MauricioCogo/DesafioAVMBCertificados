@@ -56,3 +56,14 @@ export const deleteStudentService = async (id, institutionId) => {
     await student.update({ deleted: true, deleted_at: new Date() });
     return student;
 }
+
+export const importStudentService = async (data, institutionId, transiction) => {
+    console.log(data);
+    
+    return await Student.create({
+        name: data.nome,
+        cpf: data.cpf,
+        birth_date: data.dt_nascimento,
+        institution_id: institutionId
+    }, { transaction: transiction });
+};

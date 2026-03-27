@@ -1,6 +1,10 @@
-import Ajv from 'ajv';
+import Ajv from 'ajv/dist/2020.js';
 import addFormats from 'ajv-formats';
-import schema from '../schemas/alunoSchema.json' assert { type: 'json' };
+import fs from 'fs';
+
+const schema = JSON.parse(
+    fs.readFileSync(new URL('../schemas/alunoSchema.json', import.meta.url))
+);
 
 const ajv = new Ajv({
     allErrors: true
@@ -14,9 +18,9 @@ export const validateStudent = (data) => {
     const valid = validate(data);
 
     if (!valid) {
-        throw new Error(
-            ajv.errorsText(validate.errors, { separator: '\n' })
-        );
+        const error = new Error('VALIDATION_ERROR');
+        error.details = validate.errors
+        throw error;
     }
 
     return true;

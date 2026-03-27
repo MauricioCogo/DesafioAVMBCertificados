@@ -59,3 +59,26 @@ export const deleteCourseService = async (id, institutionId) => {
 
     await course.update({ deleted: true, deleted_at: new Date() });
 }
+
+export const findOrCreateCourse = async (courseData, institutionId, transaction) => {
+
+    let course = await Course.findOne({
+        where: {
+            name: courseData.nome,
+            institution_id: institutionId
+        },
+        transaction
+    });
+
+    if (!course) {
+        course = await Course.create({
+            name: courseData.nome,
+            start_date: courseData.dt_inicio,
+            end_date: courseData.dt_fim,
+            teacher: courseData.docente,
+            institution_id: institutionId
+        }, { transaction });
+    }
+
+    return course;
+};

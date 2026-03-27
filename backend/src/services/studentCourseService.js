@@ -52,3 +52,11 @@ export const updateStudentCourseService = async (id, data) => {
 
     return record;
 };
+
+export const importStudentInCourseService = async (studentId, courseId, transaction) => {
+    return await StudentCourse.create({
+        student_id: studentId,
+        course_id: courseId,
+        status: 'EM_ANDAMENTO'
+    }, { transaction });
+};
