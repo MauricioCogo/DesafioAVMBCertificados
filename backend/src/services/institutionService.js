@@ -44,3 +44,15 @@ export const getInstitutionAllService = async () => {
     });
     return institutions;
 }
+
+export const deleteInstitutionService = async (id) => {
+    const institution = await Institution.findByPk(id);
+
+    if (!institution) {
+        throw new Error('NOT_FOUND');
+    }
+
+    await institution.update({ deleted: true , deleted_at: new Date() });
+    return institution;
+};
+

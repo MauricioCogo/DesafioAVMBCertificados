@@ -32,11 +32,13 @@ class StudentCourse extends Model {
 
     static associate(models) {
         this.belongsTo(models.Student, {
-            foreignKey: 'student_id'
+            foreignKey: 'student_id',
+            as: 'student'
         });
 
         this.belongsTo(models.Course, {
-            foreignKey: 'course_id'
+            foreignKey: 'course_id',
+            as: 'course'
         });
     }
 }

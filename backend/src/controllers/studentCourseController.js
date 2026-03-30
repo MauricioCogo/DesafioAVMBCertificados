@@ -1,4 +1,4 @@
-import { enrollStudentInCourseService, getStudentCoursesService, updateStudentCourseService } from '../services/studentCourseService.js';
+import { downloadCertificateService, enrollStudentInCourseService, getStudentCoursesService, updateStudentCourseService } from '../services/studentCourseService.js';
 
 export const linkStudentCourse = async (req, res) => {
     try {
@@ -45,3 +45,23 @@ export const updateStudentCourse = async (req, res) => {
         return res.status(500).json({ error: 'Erro ao atualizar vínculo', details: error.message });
     }
 };
+
+export const downloadCertificate = async (req, res) => {
+    try {
+        const { hash } = req.params;
+
+        console.log('HASH RECEBIDO:', hash);
+        
+
+        const filePath = await downloadCertificateService(hash);
+
+        return res.download(filePath);
+    }
+    catch (error) {
+        if (error.message === 'NOT_FOUND') {
+            return res.status(404).json({ message: 'Certificado não encontrado!' });
+        }
+        return res.status(500).json({ error: 'Erro ao baixar certificado', details: error.message });
+    }
+};
+
