@@ -260,14 +260,14 @@ created_at
 ```
 
 
-##Curso
+## Curso
+```
 id
 nome
 dt_inicio
 dt_fim
 docente
-
-
+```
 
 ## Você deve notificar o Aluno de alguma forma que o "Certificado de conclusão(XML)" dele foi gerado e pode ser consultado! Você tem total liberdade para definir a forma de notificação(Email, webhook, Mensagem, notificação, Alerta. etc...) você pode implementar 1 ou N maneiras de notificar.
 
