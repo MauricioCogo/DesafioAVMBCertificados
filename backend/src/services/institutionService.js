@@ -37,6 +37,16 @@ export const loginInstitutionService = async (data) => {
     return token;
 };
 
+export const getInstitutionService = async (id) => {
+    const institution = await Institution.findByPk(id, {
+        attributes: { exclude: ['password'] }
+    });
+    if (!institution) {
+        throw new Error('NOT_FOUND');
+    }
+    return institution;
+}
+
 export const getInstitutionAllService = async () => {
     const institutions = await Institution.findAll({
         where: { deleted: false },
@@ -52,7 +62,7 @@ export const deleteInstitutionService = async (id) => {
         throw new Error('NOT_FOUND');
     }
 
-    await institution.update({ deleted: true , deleted_at: new Date() });
+    await institution.update({ deleted: true, deleted_at: new Date() });
     return institution;
 };
 

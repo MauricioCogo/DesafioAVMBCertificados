@@ -15,7 +15,6 @@ export const validateCertificate = async (req, res) => {
         ]
     });
 
-    console.log(record);
 
 
     if (!record) {

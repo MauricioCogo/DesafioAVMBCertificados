@@ -1,7 +1,8 @@
 import {
     createInstitutionService,
     loginInstitutionService,
-    getInstitutionAllService
+    getInstitutionAllService,
+    getInstitutionService
 } from '../services/institutionService.js';
 
 export const createInstitution = async (req, res) => {
@@ -33,6 +34,15 @@ export const loginInstitution = async (req, res) => {
 
         return res.status(500).json({ error: 'Erro no login', details: error.message });
     }
+};
+
+export const infoInstitution = async (req, res) => {
+    try {
+        const institution = await getInstitutionService(req.institution.id);
+        return res.status(200).json(institution);
+    } catch (error) {
+        return res.status(500).json({ error: 'Erro ao obter informações da instituição', details: error.message });
+    }   
 };
 
 export const getInstitutionAll = async (req, res) => {

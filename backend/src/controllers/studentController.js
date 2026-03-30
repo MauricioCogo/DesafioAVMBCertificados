@@ -1,4 +1,4 @@
-import {createStudentService, getAllStudentsService, getStudentByIdService, updateStudentService, deleteStudentService} from '../services/studentService.js';
+import { createStudentService, getAllStudentsService, getStudentByIdService, updateStudentService, deleteStudentService } from '../services/studentService.js';
 
 export const createStudent = async (req, res) => {
     try {
@@ -49,8 +49,8 @@ export const updateStudent = async (req, res) => {
 
 export const deleteStudent = async (req, res) => {
     try {
-        await deleteStudentService(req.params.id, req.institution.id);
-        return res.status(200).json({ message: 'Aluno deletado com sucesso!' });
+        const student = await deleteStudentService(req.params.id, req.institution.id);
+        return res.status(200).json({ message: 'Aluno deletado com sucesso!', student: student });
     } catch (error) {
         if (error.message === 'NOT_FOUND') {
             return res.status(404).json({ message: 'Aluno não encontrado!' });

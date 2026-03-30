@@ -1,4 +1,4 @@
-import { downloadCertificateService, enrollStudentInCourseService, getStudentCoursesService, updateStudentCourseService } from '../services/studentCourseService.js';
+import { downloadCertificateService, enrollStudentInCourseService, getAllStudentCoursesService, getStudentCoursesService, updateStudentCourseService, updateStudentCourseStatusService } from '../services/studentCourseService.js';
 
 export const linkStudentCourse = async (req, res) => {
     try {
@@ -29,6 +29,21 @@ export const getStudentCourses = async (req, res) => {
     }
 };
 
+export const getAllStudentCourses = async (req, res) => {
+    try {
+        const institutionId = req.institution.id;
+        const students = await getAllStudentCoursesService(institutionId);
+        return res.status(200).json(students);
+    }
+    catch (error) {
+        if (error.message === 'NOT_FOUND') {
+            return res.status(404).json({ message: 'Alunos não encontrados!' });
+        }
+        return res.status(500).json({ error: 'Erro ao buscar cursos do aluno', details: error.message });
+    }
+};
+
+
 export const updateStudentCourse = async (req, res) => {
     try {
         const id = req.params.id;
@@ -46,12 +61,31 @@ export const updateStudentCourse = async (req, res) => {
     }
 };
 
+export const updateStudentCourseStatus = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        const updatedRecord = await updateStudentCourseStatusService(id, data);
+
+        return res.status(200).json({
+            message: 'Vínculo atualizado com sucesso!',
+            updatedRecord
+        });
+    } catch (error) {
+        if (error.message === 'NOT_FOUND') {
+            return res.status(404).json({ message: 'Vínculo não encontrado!' });
+        }
+        return res.status(500).json({ error: 'Erro ao atualizar vínculo', details: error.message });
+    }
+};
+
+
 export const downloadCertificate = async (req, res) => {
     try {
         const { hash } = req.params;
 
         console.log('HASH RECEBIDO:', hash);
-        
+
 
         const filePath = await downloadCertificateService(hash);
 

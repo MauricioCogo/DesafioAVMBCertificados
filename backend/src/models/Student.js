@@ -6,9 +6,18 @@ class Student extends Model {
             {
                 name: Sequelize.STRING,
                 cpf: Sequelize.STRING,
-                birth_date: Sequelize.DATE
+                birth_date: Sequelize.DATE,
+                deleted: {
+                    type: Sequelize.BOOLEAN,
+                    allowNull: false,
+                    defaultValue: false
+                },
+                deleted_at: {
+                    type: Sequelize.DATE,
+                    allowNull: true
+                }
             },
-            { sequelize }
+            { sequelize, tableName: 'students' }
         );
 
         return this;

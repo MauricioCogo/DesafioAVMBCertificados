@@ -8,7 +8,7 @@ export const createStudentService = async (data, institutionId) => {
         birth_date: data.birth_date,
         institution_id: institutionId
     });
-    
+
     return student;
 }
 
@@ -50,6 +50,9 @@ export const updateStudentService = async (id, data, institutionId) => {
 export const deleteStudentService = async (id, institutionId) => {
     const student = await getStudentByIdService(id, institutionId);
 
+    console.log("era pra ter iso");
+
+
     if (!student) {
         throw new Error('NOT_FOUND');
     }
@@ -59,7 +62,7 @@ export const deleteStudentService = async (id, institutionId) => {
 
 export const importStudentService = async (data, institutionId, transiction) => {
     console.log(data);
-    
+
     return await Student.create({
         name: data.nome,
         cpf: data.cpf,

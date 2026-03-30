@@ -37,7 +37,34 @@ export const getStudentCoursesService = async (studentId, institutionId) => {
     return student;
 };
 
+export const getAllStudentCoursesService = async (institutionId) => {
+    const students = await Student.findAll({
+        where: { institution_id: institutionId, deleted: false },
+        include: {
+            association: 'courses',
+            through: {
+                attributes: ['status', 'hash', 'file_path', 'url_callback']
+            }
+        }
+    });
+
+    return students.map(student => student.toJSON());
+};
+
 export const updateStudentCourseService = async (id, data) => {
+
+    const record = await StudentCourse.findByPk(id);
+
+    if (!record) {
+        throw new Error('NOT_FOUND')
+    };
+
+    await record.update(data);
+
+    return record;
+};
+
+export const updateStudentCourseStatusService = async (id, data) => {
 
     const record = await StudentCourse.findByPk(id);
 
@@ -71,7 +98,7 @@ export const downloadCertificateService = async (hash) => {
     });
 
     console.log(record);
-    
+
 
 
     if (!record) {
